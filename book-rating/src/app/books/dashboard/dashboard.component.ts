@@ -9,3 +9,11 @@ import { Component } from '@angular/core';
 export class DashboardComponent {
 
 }
+
+
+/* TODO
+- Datenmodell
+- Daten
+- Komponente zur Anzeige
+
+*/
