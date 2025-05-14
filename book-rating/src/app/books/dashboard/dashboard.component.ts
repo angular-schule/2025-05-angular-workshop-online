@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
+import { Book } from '../shared/book';
 
 @Component({
   selector: 'app-dashboard',
@@ -7,7 +8,26 @@ import { Component } from '@angular/core';
   styleUrl: './dashboard.component.scss'
 })
 export class DashboardComponent {
+  readonly books = signal<Book[]>([]);
 
+  constructor() {
+    this.books.set([
+      {
+        isbn: '123',
+        title: 'Angular',
+        description: 'Grundlagen und mehr',
+        price: 42.9,
+        rating: 5
+      },
+      {
+        isbn: '456',
+        title: 'Vue.js',
+        description: 'Das grüne Framework',
+        price: 36.9,
+        rating: 3
+      },
+    ]);
+  }
 }
 
 
