@@ -33,4 +33,26 @@ describe('DashboardComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should call service.rateUp for component.doRateUp', () => {
+    // ARRANGE
+    // Testbuch
+    const testBook = { isbn: '124' } as Book;
+
+    // Zugriff auf Service bzw. ratingMock
+    const rs = TestBed.inject(BookRatingService);
+    // Service überwachen
+    // callThrough benutzt originale Methode trotzdem noch, um den Wert zu erzeugen
+    // spyOn(rs, 'rateUp').and.returnValue(testBook);
+    // spyOn(rs, 'rateUp').and.callFake(b => b);
+    spyOn(rs, 'rateUp').and.callThrough();
+
+    // ACT
+    component.doRateUp(testBook);
+
+    // ASSERT
+    // prüfen, ob rateUp() aufgerufen wurde
+    expect(rs.rateUp).toHaveBeenCalled();
+    expect(rs.rateUp).toHaveBeenCalledOnceWith(testBook);
+  });
 });
