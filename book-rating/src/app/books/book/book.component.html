@@ -1,15 +1,16 @@
+@let b = book();
 <div class="card mb-4">
   <div class="card-body bg-light">
       <img class="img-thumbnail float-end" alt=""
-        src="https://api.angular.schule/avatar/{{ book().rating }}">
+        src="https://api.angular.schule/avatar/{{ b.rating }}">
     <div class="card-title">
       <h2>
-        {{ book().title }}
-        <app-rating-display [value]="book().rating" />
+        {{ b.title }}
+        <app-rating-display [value]="b.rating" />
       </h2>
     </div>
-    <p>{{ book().description }}</p>
-    <p>Preis: {{ book().price }}</p>
+    <p>{{ b.description }}</p>
+    <p>Preis: {{ b.price }}</p>
 
     <button type="button" class="btn btn-green" (click)="doRateUp()"> + </button>
     <button type="button" class="btn btn-red" (click)="doRateDown()"> - </button>
