@@ -6,7 +6,7 @@ import { Book } from './book';
 })
 export class BookRatingService {
 
-  constructor() {console.log('HALLO')}
+  constructor() {}
 
   rateUp(book: Book): Book {
     return {
