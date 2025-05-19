@@ -7,5 +7,6 @@ export const routes: Routes = [
   // (fast) immer pathMatch:full nötig
   { path: '', redirectTo: 'books', pathMatch: 'full' },
   ...booksRoutes,
-  { path: '**', component: ErrorPageComponent }
+  // Wildcard-Route: matcht auf alles, muss immer ganz unten stehen!
+  { path: '**', component: ErrorPageComponent },
 ];
