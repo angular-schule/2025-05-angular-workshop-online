@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, httpResource, HttpResourceRef } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Book } from './book';
 import { Observable } from 'rxjs';
@@ -15,6 +15,10 @@ export class BookStoreService {
 
   getAll(): Observable<Book[]> {
     return this.#http.get<Book[]>(this.#apiUrl + '/books');
+  }
+
+  getAllResource(): HttpResourceRef<Book[]> {
+    return httpResource<Book[]>(this.#apiUrl + '/books', { defaultValue: [] });
   }
 
   getSingle(isbn: string): Observable<Book> {

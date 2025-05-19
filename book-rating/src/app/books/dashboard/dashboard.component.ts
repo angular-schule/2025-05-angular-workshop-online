@@ -17,6 +17,8 @@ export class DashboardComponent {
   #rs = inject(BookRatingService);
   #bs = inject(BookStoreService);
 
+  // readonly booksResource = this.#bs.getAllResource();
+
   constructor() {
     this.#bs.getAll().subscribe({
       next: receivedBooks => {
