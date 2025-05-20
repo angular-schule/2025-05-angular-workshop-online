@@ -12,8 +12,8 @@
     <p>{{ b.description }}</p>
     <p>Preis: {{ b.price | currency:'EUR' }}</p>
 
-    <button type="button" class="btn btn-green" (click)="doRateUp()"> + </button>
-    <button type="button" class="btn btn-red" (click)="doRateDown()"> - </button>
+    <button type="button" class="btn btn-green" [disabled]="b.rating <= minRating()" (click)="doRateUp()"> + </button>
+    <button type="button" class="btn btn-red" [disabled]="b.rating >= maxRating()" (click)="doRateDown()"> - </button>
     <button type="button" class="btn btn-yellow" (click)="doDelete()">Löschen</button>
 
     <a [routerLink]="['/books', b.isbn]">Details</a>
