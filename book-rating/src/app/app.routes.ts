@@ -1,6 +1,5 @@
 import { Routes } from '@angular/router';
 // import { booksRoutes } from './books/books.routes';
-import { ErrorPageComponent } from './error-page/error-page.component';
 
 export const routes: Routes = [
   // bei Weiterleitung vom leeren Pfad:
@@ -14,5 +13,8 @@ export const routes: Routes = [
   },
 
   // Wildcard-Route: matcht auf alles, muss immer ganz unten stehen!
-  { path: '**', component: ErrorPageComponent },
+  {
+    path: '**',
+    loadComponent: () => import('./error-page/error-page.component').then(m => m.ErrorPageComponent)
+  },
 ];
