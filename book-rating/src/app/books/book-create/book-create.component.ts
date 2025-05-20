@@ -1,6 +1,6 @@
 import { JsonPipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Book } from '../shared/book';
 import { BookStoreService } from '../shared/book-store.service';
 import { Router } from '@angular/router';
@@ -58,8 +58,19 @@ export class BookCreateComponent {
         Validators.required,
         Validators.min(0)
       ]
-    })
+    }),
+    authors: new FormArray([
+      new FormControl('', { nonNullable: true }),
+      new FormControl('', { nonNullable: true }),
+      new FormControl('', { nonNullable: true }),
+    ])
   });
+
+  addAuthor() {
+    this.bookForm.controls.authors.push(
+      new FormControl('', { nonNullable: true })
+    );
+  }
 
   isInvalid(control: FormControl): boolean {
     return control.invalid && control.touched;

@@ -39,6 +39,15 @@
     <input type="number" id="priceInput" class="form-control" [formControl]="c.price">
   </div>
 
+  <fieldset>
+    <label>Autoren</label>
+    <button type="button" class="btn btn-blue" (click)="addAuthor()">+</button>
+
+    @for (a of c.authors.controls; track a) {
+    <input type="text" class="form-control" [formControl]="a">
+    }
+  </fieldset>
+
   <button type="submit" class="btn btn-green" [disabled]="bookForm.invalid">Abschicken</button>
 
 </form>
