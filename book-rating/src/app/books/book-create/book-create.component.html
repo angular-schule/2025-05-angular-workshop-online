@@ -4,6 +4,19 @@
   <div class="form-group">
     <label for="isbnInput">ISBN</label>
     <input type="text" id="isbnInput" class="form-control" [formControl]="c.isbn">
+
+    @if (isInvalid(c.isbn)) {<div class="feedback-error">Die ISBN ist ungültig.</div>}
+    @if (hasError(c.isbn, 'required')) {<div class="feedback-error">Die ISBN muss angegeben werden.</div>}
+    @if (hasError(c.isbn, 'minlength')) {<div class="feedback-error">Die ISBN ist zu kurz.</div>}
+    @if (hasError(c.isbn, 'maxlength')) {<div class="feedback-error">Die ISBN ist zu lang.</div>}
+    @if (hasError(c.isbn, 'pattern')) {<div class="feedback-error">Die ISBN darf nur aus Zahlen bestehen.</div>}
+
+    <pre>{{ c.isbn.errors | json }}</pre>
+
+    <!--AUSBLICK:
+    <app-form-errors [control]="c.isbn"
+      [messages]="{ required: 'MUSS ANG.WERDEN', minlength: 'ZU KURZ' }" />
+    -->
   </div>
 
   <div class="form-group">
@@ -31,3 +44,19 @@
 </form>
 
 <pre>{{ bookForm.value | json }}</pre>
+
+<!-- TODO
+- Validierung
+- visuelles Feedback
+- Fehlermeldungen
+  - "Die ISBN ist ungültig"
+  - "Die ISBN ist zu kurz"
+- abschicken
+- Buch erstellen
+- HTTP-Request zum Server
+- Erfolg
+  - navigieren, z. B. zum Dashboard oder Detailseite
+  - (Erfolgsmeldung)
+  - (Reset)
+
+-->
