@@ -2,7 +2,7 @@
   <h1>{{ title }}</h1>
 
   <nav>
-    <a routerLink="/books" routerLinkActive="active" ariaCurrentWhenActive="page" class="me-2">Dashboard</a>
+    <a routerLink="/books" routerLinkActive="active" ariaCurrentWhenActive="page" [routerLinkActiveOptions]="{ exact: true }" class="me-2">Dashboard</a>
     <a routerLink="/books/create" routerLinkActive="active" ariaCurrentWhenActive="page" class="me-2">Create</a>
     <a routerLink="/books/search" routerLinkActive="active" ariaCurrentWhenActive="page" class="me-2">Search</a>
   </nav>
