@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Subject, ReplaySubject, merge, concat, race, forkJoin, EMPTY, map } from 'rxjs';
+import { Subject, ReplaySubject, merge, concat, race, forkJoin, EMPTY, map, timer, combineLatest, startWith, zip } from 'rxjs';
 
 import { HistoryWindow } from '../shared/history-window/history-window';
 import { ChatWindow } from './chat-window/chat-window';
@@ -33,12 +33,18 @@ export class ExerciseChat {
      * - concat (Emit values from source 1, when complete, subscribe to source 2...)
      * - race (The observable to emit first is used.)
      * - forkJoin (When all observables complete, emit the last emitted value from each.)
+     * - combineLatest
+     * - zip
      */
 
     /**************!!**************/
 
-     EMPTY.subscribe({                                   
-      next: e => this.log(e),
+     zip([
+      this.#msg.julia$,
+      this.#msg.georg$,
+      this.#msg.john$,
+     ]).subscribe({
+      next: e => this.log(e.toString()),
       error: err => this.log('❌ ERROR: ' + err),
       complete: () => this.log('✅ All members left')
     });

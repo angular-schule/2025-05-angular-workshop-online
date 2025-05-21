@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Observable, of, from, timer, interval, ReplaySubject, map, filter, Subscriber, Observer } from 'rxjs';
+import { Observable, of, from, timer, interval, ReplaySubject, map, filter, Subscriber, Observer, tap } from 'rxjs';
 
 import { HistoryWindow } from '../shared/history-window/history-window';
 
@@ -31,7 +31,12 @@ export class ExerciseCreating {
     // timer(2000, 1000)   // ------0---1---2---3---4---5 ...
     // timer(0, 1000)      // 0---1---2---3---4---5 ...
 
-    timer(2000, 1000).subscribe({
+    timer(0, 1000).pipe(
+      tap(e => this.log('TIMER ' + e)),
+      map(e => e * 3),
+      tap(e => this.log('MAP ' + e)),
+      filter(e => e % 2 === 0)
+    ).subscribe({
       next: e => this.log(e),
       complete: () => this.log('COMPLETE')
     })

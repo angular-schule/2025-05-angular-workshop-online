@@ -31,6 +31,7 @@ export class ExerciseHigherorder {
     /**************!!**************/
 
     this.result$ = this.source$.pipe(
+      exhaustMap(tier => this.#es.echo(tier))
     );
 
     /**************!!**************/
