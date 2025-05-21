@@ -24,6 +24,21 @@ export class ExerciseCreating {
 
     /******************************/
 
+    // of('Köln', 'Leipzig', 'Jena', 'München')
+    // from([1,2,3,4,5])
+    // interval(1000)      // ---0---1---2---3---4---5 ...
+    // timer(2000)         // ------0|
+    // timer(2000, 1000)   // ------0---1---2---3---4---5 ...
+    // timer(0, 1000)      // 0---1---2---3---4---5 ...
+
+    timer(2000, 1000).subscribe({
+      next: e => this.log(e),
+      complete: () => this.log('COMPLETE')
+    })
+
+
+    /******************************/
+
 
     // Producer: generiert die Daten
     function producer(sub: Subscriber<number>) {
@@ -33,14 +48,26 @@ export class ExerciseCreating {
       sub.next(20);
       sub.next(30);
 
-      setTimeout(() => sub.next(100), 2000)
-      setTimeout(() => sub.next(400), 4000)
-      setTimeout(() => sub.complete(), 6000)
+      const myInterval = setInterval(() => {
+        sub.next(Date.now());
+        console.log('PROD', Date.now());
+      }, 1000);
+
+      // setTimeout(() => sub.next(100), 2000)
+      // setTimeout(() => sub.next(400), 4000)
+      // setTimeout(() => sub.complete(), 6000)
+
+      // Teardown Logic
+      // wird ausgeführt, wenn unsubscribet wird
+      return () => {
+        console.log('TEARDOWN');
+        clearInterval(myInterval);
+      };
     }
 
     // Observer: hört von außen zu
     const obs: Observer<number> = {
-      next: value => console.log(value),
+      next: value => console.log('OBSERVER', value),
       error: (err: any) => console.error(err),
       complete: () => console.log('FERTIG')
     }
@@ -50,9 +77,12 @@ export class ExerciseCreating {
     // $ Finnische Notation
     const myObs$ = new Observable(producer);
 
-    myObs$.subscribe(obs);
-    myObs$.subscribe(obs);
-    myObs$.subscribe(obs);
+    /*const subscription = myObs$.subscribe(obs);
+
+    setTimeout(() => {
+      subscription.unsubscribe();
+      console.log('UNSUBSCRIBE');
+    }, 10000);*/
 
 
     function httpGetReq(url: string) {
