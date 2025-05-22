@@ -1,9 +1,10 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, linkedSignal, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Book } from '../shared/book';
 import { BookStoreService } from '../shared/book-store.service';
 import { filter, map, Observable, share, switchMap } from 'rxjs';
 import { AsyncPipe, JsonPipe } from '@angular/common';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-book-details',
@@ -15,11 +16,11 @@ export class BookDetailsComponent {
   #route = inject(ActivatedRoute);
   #bs = inject(BookStoreService);
 
-  book$ = this.#route.paramMap.pipe(
+  readonly book = toSignal(this.#route.paramMap.pipe(
     map(params => params.get('isbn')),
     filter(isbn => isbn !== null),
     switchMap(isbn => this.#bs.getSingle(isbn))
-  );
+  ));
 }
 
 
