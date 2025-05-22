@@ -2,7 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Book } from '../shared/book';
 import { BookStoreService } from '../shared/book-store.service';
-import { map, switchMap } from 'rxjs';
+import { filter, map, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-book-details',
@@ -24,7 +24,8 @@ export class BookDetailsComponent {
     // Push
     // TODO: Subscription beenden
     this.#route.paramMap.pipe(
-      map(params => params.get('isbn')!),
+      map(params => params.get('isbn')),
+      filter(isbn => isbn !== null),
       switchMap(isbn => this.#bs.getSingle(isbn)),
     ).subscribe(receivedBook => {
       this.book.set(receivedBook);
