@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { debounceTime, filter, switchMap } from 'rxjs';
+import { debounceTime, filter, of, switchMap } from 'rxjs';
 import { BookStoreService } from '../shared/book-store.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 
@@ -17,7 +17,12 @@ export class BookSearchComponent {
 
   readonly books = toSignal(this.searchControl.valueChanges.pipe(
     debounceTime(300),
-    filter(term => term.length >= 3),
-    switchMap(term => this.#bs.search(term))
+    switchMap(term => {
+      if (term.length >= 3) {
+        return this.#bs.search(term)
+      } else {
+        return of([]);
+      }
+    })
   ), { initialValue: [] });
 }
