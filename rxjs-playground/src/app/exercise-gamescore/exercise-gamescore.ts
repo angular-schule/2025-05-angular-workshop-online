@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { Subject, ReplaySubject, scan, reduce, startWith } from 'rxjs';
+import { Subject, ReplaySubject, scan, reduce, startWith, of } from 'rxjs';
 
 import { HistoryWindow } from '../shared/history-window/history-window';
 
@@ -38,6 +38,39 @@ export class ExerciseGamescore {
       this.finalScore.set(score);
     });
 
+
+
+    /******************************/
+
+
+    of(
+      /*{ name: 'Klaus', framework: 'Vue.js' },
+      { city: 'Leipzig' },
+      { city: 'Köln', name: 'Lisa' },
+      { framework: 'Angular' },
+      { city: 'Berlin' },*/
+      'SETFRANG',
+      'SETCITYBERLIN',
+      'SETNAMELISA',
+      'UNKNOWN',
+      'SETNAMEKLAUS',
+      'SETFRVUE',
+      // { type: 'SETFRAMEWORK', data: 'Vue.js' }
+      // { type: 'SETFRAMEWORK', data: 'Angular' }
+    ).pipe(
+      scan((acc, item) => {
+        // { ...acc, ...item }
+        switch (item) {
+          case 'SETNAMELISA': return { ...acc, name: 'Lisa', city: 'Leipzig' };
+          case 'SETCITYBERLIN': return { ...acc, city: 'Berlin' };
+          case 'SETNAMEKLAUS': return { ...acc, name: 'Klaus', city: 'Köln' };
+          case 'SETFRVUE': return { ...acc, framework: 'Vue.js' };
+          case 'SETFRANG': return { ...acc, framework: 'Angular' };
+          case 'SETFRREACT': return { ...acc, framework: 'React' };
+          default: return acc;
+        }
+      }, {})
+    ).subscribe(e => console.log(e))
 
 
     /******************************/
