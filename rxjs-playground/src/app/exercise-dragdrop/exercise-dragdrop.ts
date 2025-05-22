@@ -34,7 +34,9 @@ export class ExerciseDragdrop {
 
     /******************************/
 
-    this.mouseMove$.subscribe(e => this.setTargetPosition(e));
+    this.mouseDown$.pipe(
+      concatMap(() => this.mouseMove$.pipe(takeUntil(this.mouseUp$)))
+    ).subscribe(e => this.setTargetPosition(e));
 
     /******************************/
   }
