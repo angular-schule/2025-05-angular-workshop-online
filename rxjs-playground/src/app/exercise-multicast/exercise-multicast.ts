@@ -30,8 +30,8 @@ export class ExerciseMulticast implements OnDestroy {
       }));*/
 
     // this.measureValues$ = new Subject();
-    // this.measureValues$ = new BehaviorSubject(-1);
-    this.measureValues$ = new ReplaySubject(5);
+    this.measureValues$ = new BehaviorSubject(-1);
+    // this.measureValues$ = new ReplaySubject(5);
 
     this.#mvs.getValues().subscribe(this.measureValues$);
 

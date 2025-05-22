@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { fromEvent, map, startWith, debounceTime } from 'rxjs';
+import { fromEvent, map, startWith, debounceTime, share } from 'rxjs';
 
 @Component({
   templateUrl: './exercise-fromevent.html'
@@ -26,6 +26,24 @@ export class ExerciseFromevent {
     ).subscribe(e => {
       this.currentWidth.set(e)
     });
+
+    //////////////////////////////////////
+
+    const resizeEvents$ = fromEvent<{ target: Window }>(window, 'resize').pipe(
+      debounceTime(100),
+      startWith({ target: window }),
+      share()
+    );
+
+    const innerWidth$ = resizeEvents$.pipe(
+      map(e => e.target.innerWidth)
+    );
+
+    const outerWidth$ = resizeEvents$.pipe(
+      map(e => e.target.outerWidth)
+    );
+
+
 
     /******************************/
   }
