@@ -5,6 +5,10 @@ import { BookRatingService } from '../shared/book-rating.service';
 import { BookStoreService } from '../shared/book-store.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
+import { Store } from '@ngrx/store';
+import { BookActions } from '../store/book.actions';
+import { map } from 'rxjs';
+import { selectBooks } from '../store/book.selectors';
 
 @Component({
   selector: 'app-dashboard',
@@ -13,7 +17,10 @@ import { DatePipe } from '@angular/common';
   styleUrl: './dashboard.component.scss'
 })
 export class DashboardComponent implements OnDestroy {
-  readonly books = signal<Book[]>([]);
+  #store = inject(Store);
+
+  // readonly books = signal<Book[]>([]);
+  readonly books = this.#store.selectSignal(selectBooks);
 
   #rs = inject(BookRatingService);
   #bs = inject(BookStoreService);
@@ -24,14 +31,16 @@ export class DashboardComponent implements OnDestroy {
   // readonly booksResource = this.#bs.getAllResource();
 
   constructor() {
-    this.#bs.getAll().subscribe({
+    this.#store.dispatch(BookActions.loadBooks());
+
+    /*this.#bs.getAll().subscribe({
       next: receivedBooks => {
         this.books.set(receivedBooks);
       },
       error: (err: HttpErrorResponse) => {
         console.log('ERROR', err);
       }
-    });
+    });*/
   }
 
   doRateUp(book: Book) {
@@ -55,12 +64,12 @@ export class DashboardComponent implements OnDestroy {
         this.books.set(receivedBooks);
       });*/
       // alternativ: Liste lokal filtern
-      this.books.update(oldList => oldList.filter(b => b.isbn !== book.isbn));
+      // this.books.update(oldList => oldList.filter(b => b.isbn !== book.isbn));
     });
   }
 
   #updateList(ratedBook: Book) {
-    this.books.update(oldList => {
+    /*this.books.update(oldList => {
       // [1,2,3,4,5].map(e => e * 10) // [10, 20, 30, 40, 50]
       // [1,2,3,4,5,6,7,8,9].filter(e => e > 5) // [6,7,8,9]
 
@@ -75,7 +84,7 @@ export class DashboardComponent implements OnDestroy {
           return b;
         }
       });
-    });
+    });*/
   }
 
   ngOnDestroy() {
